@@ -36,12 +36,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 //                Disabling the CSRF protection again since we are going to use Postman to process any request and avoid CSRF token generation everytime.
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "index.html", "/css/*","/js/*").permitAll()
+                .antMatchers("/", "index.html", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").hasRole(STUDENT.name())
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login").permitAll()
+                .defaultSuccessUrl("/courses", true)
+                .and()
+                .rememberMe();
     }
 
     @Override
